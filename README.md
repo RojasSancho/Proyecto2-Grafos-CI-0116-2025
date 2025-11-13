@@ -7,7 +7,18 @@
   * Guardar aristas con origen, destino y peso.
   * Ejemplo: grafo[0] = [(1,10), (2,20)] → nodo 0 tiene aristas a nodo 1 con peso 10 y nodo 2 con peso 20. 
 * Implementar BFS: Busqueda en anchura y DFS: Busqueda en profundidad (Nivel 1)
-* Probar rutas y 
+  * Programar funciones que encuentren cualquier camino desde recurso a base ignorando pesos.
+  * BFS: buscar por niveles.
+  * DFS: buscar siguiendo un camino hasta el final antes de retroceder.
+  * Probar con nodos de ejemplo y verificar que devuelvan rutas válidas.
+* Implementar Greedy y Dijkstra (Niveles 2 y 3).
+  * Greedy: siempre elegir la arista más ligera al moverse.
+  * Dijkstra: calcular camino de costo mínimo absoluto.
+  * Probar rutas con distintos nodos y comparar costos para asegurarse que funcionan correctamente.
+* Probar rutas y calcular costos de tuberías.
+  * Crear función que, dado un nodo recurso, calcule la tubería hacia la base usando el algoritmo elegido y sume los pesos.
+  * Ejemplo: nodo recurso 2 → base 0: ruta = [2,1,0], costo total = 30.
+  * Verificar que los resultados sean coherentes con la simulación.  
 ### Integrante 2
 
 ### Integrante 3
