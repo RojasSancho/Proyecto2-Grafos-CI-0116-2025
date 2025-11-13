@@ -35,8 +35,19 @@
     * Controlar saldo del jugador: decidir si comprar máquina nueva o actualizar una existente. 
     * Implementar condición de victoria: cuando se acumulan suficientes recursos para comprar el motor de plasma.
 4. Pruebas de mecánicas de juego
+    * Simular distintos escenarios: batería baja, varios recursos, rutas largas.
+    * Asegurarse que los cálculos de ganancia y saldo sean correctos.
 ### Integrante 3
 1. Visualizar nodos, conexiones y rutas
+    * Dibujar todos los nodos en pantalla según sus coordenadas.
+    * Dibujar líneas entre nodos según las aristas.
+    * Diferenciar base, nodos vacíos y recursos con colores o formas.
 2. Diferenciar rutas según algoritmo
-3. Mostrar indicadores en tiempo real
-4. Integrar GUI con simulación
+    * Mostrar tuberías generadas por máquinas:
+      * BFS/DFS → rojo
+      * Greedy → amarillo
+      * Dijkstra → verde
+    
+    * Actualizar rutas en tiempo real si se actualiza la máquina.
+5. Mostrar indicadores en tiempo real
+6. Integrar GUI con simulación
