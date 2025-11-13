@@ -1,6 +1,6 @@
 # Proyecto2 Grafos CI-0116-2025
 ## Division de tareas
-### Integrante 1
+### Integrante 1 - Desarrolla Grafos y Algoritmos
 1. Construir el grafo en memoria.
    * Elegir entre lista de adyacencia o matriz de adyacencia segun que tan denso es el grafo.
    * Crear estructuras que guarden: ID del nodo, tipo (vacio, base, recurso), valor de recurso, coordenadas.
@@ -19,7 +19,7 @@
     * Crear función que, dado un nodo recurso, calcule la tubería hacia la base usando el algoritmo elegido y sume los pesos.
     * Ejemplo: nodo recurso 2 → base 0: ruta = [2,1,0], costo total = 30.
     * Verificar que los resultados sean coherentes con la simulación.  
-### Integrante 2
+### Integrante 2 - Desarrolla Simulación y Mecánicas de Juego
 1. Movimiento del jugador y batería
     * Implementar función para moverse de nodo en nodo.
     * Restar batería según el peso de la arista recorrida.
@@ -37,7 +37,7 @@
 4. Pruebas de mecánicas de juego
     * Simular distintos escenarios: batería baja, varios recursos, rutas largas.
     * Asegurarse que los cálculos de ganancia y saldo sean correctos.
-### Integrante 3
+### Integrante 3 - Desarrolla Interfaz Gráfica y Visualización
 1. Visualizar nodos, conexiones y rutas
     * Dibujar todos los nodos en pantalla según sus coordenadas.
     * Dibujar líneas entre nodos según las aristas.
