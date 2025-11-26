@@ -2,7 +2,7 @@
 ## Division de tareas
 ### Hermes - Grafo y Algoritmos (niveles 1 y 2)
 1. Construir el grafo en memoria.
-   Archivos: Grafo.h/cpp, AlgoritmosBasicos.h/cpp
+   Archivos: Grafo.h/cpp, Algoritmos.h/cpp
    * Elegir entre lista de adyacencia o matriz de adyacencia segun que tan denso es el grafo.
    * Crear estructuras que guarden: ID del nodo, tipo (vacio, base, recurso), valor de recurso, coordenadas.
    * Guardar aristas con origen, destino y peso.
@@ -38,6 +38,7 @@
     * Asegurarse que los cálculos de ganancia y saldo sean correctos.
 
 ### Henry - Algoritmos Dijkstra y Floyd-Warshall (niveles 3 y 4)
+Archivos: Algoritmos.h/cpp
 1. Dijkstra (Nivel 3):
     * Calcular rutas óptimas y costo mínimo absoluto desde recursos a la base.
 2. Floyd–Warshall (Nivel 4):
@@ -48,6 +49,7 @@
     * Verificar rutas y costos antes de integrar con simulación.
    
 ### Brandon - Desarrolla Interfaz Gráfica y Visualización
+Archivos: Interfaz.h/cpp
 1. Visualizar nodos, conexiones y rutas
     * Dibujar todos los nodos en pantalla según sus coordenadas.
     * Dibujar líneas entre nodos según las aristas.
