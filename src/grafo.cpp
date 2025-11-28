@@ -59,14 +59,44 @@ int Grafo::getCantidadNodos() const {
 }
 
 // --- Cargar grafo desde archivo .txt
-void cargarDesdeArchivo(const string& nombreArchivo) {
-    ifstream archivo("/data/prueba.txt"); // Abrir archivo en modo lectura
+void Grafo::cargarDesdeArchivo(const string& nombreArchivo) {
+    ifstream archivo(nombreArchivo); // Abrir archivo en modo lectura
     if (!archivo.is_open()) {
         cerr << "No se pudo abrir el archivo\n";
         return;
     }
 
-    // lectura de nodos y conexiones va aqui
+    // Variables locales para control de carga de nodos o conexiones
+    string lineaTexto;
+    bool leyendoNodos = false;
+    bool leyendoConexiones = false;
+
+    while (getline(archivo, lineaTexto)) {
+        // Casos para control de inicio de carga de nodos o conexiones
+        if (lineaTexto.empty()) { continue; }
+        if (lineaTexto == "NODOS:") { leyendoNodos = true; leyendoConexiones = false; continue; }
+        if (lineaTexto == "CONEXIONES:") { leyendoNodos = false; leyendoConexiones = true; continue; }
+
+        // Limpiar la linea de espacios
+        lineaTexto.erase(
+            remove(lineaTexto.begin(), lineaTexto.end(), ' '),
+            lineaTexto.end()
+        );
+        // Crear flujo de entrada que contiene la linea actual
+        stringstream ss(lineaTexto);
+        char coma;
+
+        if (leyendoNodos) {
+            int id, tipo, valor, x, y;
+            ss >> id >> coma >> tipo >> coma >> valor >> coma >> x >> coma >> y;
+            Nodo nodo{id, tipo, valor, x, y};
+            agregarNodo(nodo);
+        } else if (leyendoConexiones) {
+            int origen, destino, peso;
+            ss >> origen >> coma >> destino >> coma >> peso;
+            agregarArista(origen, destino, peso);
+        }
+    }
 
     archivo.close(); // Cerrar archivo
 }
