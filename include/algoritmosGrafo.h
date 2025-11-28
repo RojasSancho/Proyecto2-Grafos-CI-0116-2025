@@ -1,7 +1,7 @@
 #ifndef ALGORITMOSGRAFO_H
 #define ALGORITMOSGRAFO_H
 
-#include "Grafo.h" // Para poder acceder a la estructura del grafo
+#include "Grafo.h" 
 
 class AlgoritmosGrafo {
 private:
@@ -9,17 +9,19 @@ Grafo& grafo; // Referencia al grafo sobre el que se trabaja
 
 public:
     // Constructor
-    AlgoritmosGrafo(Grafo& g);
+    AlgoritmosGrafo(Grafo& grafo);
 
-    // Algoritmos BFS y DFS (Nivel 1)
+    // --- Nivel 1: BFS y DFS ---
     std::vector<int> busquedaAnchura(int inicio, int objetivo);
     std::vector<int> busquedaProfundidad(int inicio, int objetivo);
 
-    // Algoritmo Greedy (Nivel 2)
+    // --- Nivel 2: Greedy ---
     std::vector<int> algoritmoGreedy(int inicio, int objetivo);
 
-    // Algoritmos Dijkstra y Floyd-Warshall (Nivel 3 y 4)
+    // --- Nivel 3: Dijkstra ---
     std::vector<int> algoritmoDijkstra(int inicio, int objetivo);
+
+    // --- Nivel 4: Floyd-Warshall ---
     std::vector<std::vector<int>> algoritmoFloydWarshall();
 
     // Funcion para calcular costo total de una ruta

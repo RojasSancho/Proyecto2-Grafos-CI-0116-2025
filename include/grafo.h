@@ -19,13 +19,28 @@ class Grafo {
         std::vector<std::vector<std::pair<int,int>>> listaAdyacencia; // lista de adyacencia (destino, peso)
     
     public:
-        // Constructor
-        Grafo(int nodos);
+        // --- Constructor ---
+        Grafo(int cantidadNodos);
 
-        // Funciones para manejar nodos y aristas
+        // --- Funciones para manejar nodos y aristas ---
+        // Agrega un nodo al grafo
         void agregarNodo(const Nodo& nodo);
+
+        //Agrega una arista dirigida desde 'origen' a 'destino' con un peso
         void agregarArista(int origen, int destino, int peso);
-        void imprimirGrafo();
+
+        // Imprime la información de todos los nodos y sus aristas
+        void imprimirGrafo() const;
+
+        // --- Funciones auxiliares ---
+        // Retorna el nodo con el ID dado (id debe ser válido)
+        Nodo obtenerNodo(int id) const;
+
+        // Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
+        const std::vector<std::pair<int,int>>& obtenerAdyacentes(int id) const;
+
+        // Devuelve la cantidad de nodos del grafo
+        int getCantidadNodos() const;
 
 };
 
