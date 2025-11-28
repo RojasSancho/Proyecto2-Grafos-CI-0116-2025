@@ -4,8 +4,8 @@ using namespace std;
 
 int main () 
 {   
-    Grafo grafo(3);
-    grafo.cargarDesdeArchivo("/data/prueba.txt");
+    Grafo grafo(50);
+    grafo.cargarDesdeArchivo("data/grafo.txt");
     grafo.imprimirGrafo();
 
     return 0; 
