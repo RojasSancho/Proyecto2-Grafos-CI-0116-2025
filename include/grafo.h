@@ -27,13 +27,13 @@ class Grafo {
         void agregarNodo(const Nodo& nodo);
 
         //Agrega una arista dirigida desde 'origen' a 'destino' con un peso
-        void agregarArista(int origen, int destino, int peso);
+        bool agregarArista(int origen, int destino, int peso);
 
+        // --- Funciones auxiliares ---
         // Imprime la información de todos los nodos y sus aristas
         void imprimirGrafo() const;
 
-        // --- Funciones auxiliares ---
-        // Retorna el nodo con el ID dado (id debe ser válido)
+        // Retorna el nodo con el ID dado 
         Nodo obtenerNodo(int id) const;
 
         // Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
