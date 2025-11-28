@@ -31,7 +31,7 @@ bool Grafo::agregarArista(int origen, int destino, int peso) {
 // Imprime la información de todos los nodos y sus aristas
 void Grafo::imprimirGrafo() const {
     for (size_t i=0; i < listaAdyacencia.size(); i++) {
-        cout << i << ": [";
+        cout << i << "(" << nodos[i].tipo << ")" << ": [";
         for (size_t j = 0; j < listaAdyacencia[i].size(); j++) {
             cout    << "(" << listaAdyacencia[i][j].first
                     << ", " << listaAdyacencia[i][j].second << ")";
