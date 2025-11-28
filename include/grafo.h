@@ -5,6 +5,8 @@
 #include <utility>   // para std::pair
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <iostream>
 
 struct Nodo {
     int id;        // ID del nodo

@@ -1,5 +1,4 @@
 #include "grafo.h"
-#include <iostream>
 
 using namespace std;
 
@@ -60,6 +59,14 @@ int Grafo::getCantidadNodos() const {
 }
 
 // --- Cargar grafo desde archivo .txt
-void cargarDesdeArchivo(const std::string& nombreArchivo) {
-    
+void cargarDesdeArchivo(const string& nombreArchivo) {
+    ifstream archivo("/data/prueba.txt"); // Abrir archivo en modo lectura
+    if (!archivo.is_open()) {
+        cerr << "No se pudo abrir el archivo\n";
+        return;
+    }
+
+    // lectura de nodos y conexiones va aqui
+
+    archivo.close(); // Cerrar archivo
 }
