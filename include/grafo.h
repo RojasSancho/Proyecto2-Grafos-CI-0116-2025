@@ -4,6 +4,7 @@
 #include <vector>
 #include <utility>   // para std::pair
 #include <string>
+#include <fstream>
 
 struct Nodo {
     int id;        // ID del nodo
@@ -39,9 +40,11 @@ class Grafo {
         // Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
         const std::vector<std::pair<int,int>>& obtenerAdyacentes(int id) const;
 
-        // Devuelve la cantidad de nodos del grafo
+        // --- Getters ---
         int getCantidadNodos() const;
 
+        // --- Cargar grafo desde archivo .txt
+        void cargarDesdeArchivo(const std::string& nombreArchivo);
 };
 
 #endif

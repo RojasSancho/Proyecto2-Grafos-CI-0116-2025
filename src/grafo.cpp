@@ -48,3 +48,18 @@ void Grafo::imprimirGrafo() const {
 Nodo Grafo::obtenerNodo(int id) const {
     return nodos[id];
 }
+
+// Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
+const vector<pair<int,int>>& Grafo::obtenerAdyacentes(int id) const {
+    return listaAdyacencia[id];
+}
+
+// --- Getters ---
+int Grafo::getCantidadNodos() const {
+    return cantidadNodos;
+}
+
+// --- Cargar grafo desde archivo .txt
+void cargarDesdeArchivo(const std::string& nombreArchivo) {
+    
+}
