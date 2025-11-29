@@ -7,10 +7,10 @@ int main ()
 {   
     Grafo grafo(50);
     grafo.cargarDesdeArchivo("data/grafo.txt");
-    // grafo.imprimirGrafo();
+    grafo.imprimirGrafo();
 
     AlgoritmosGrafo algoritmos(grafo);
-    vector<int> ruta = algoritmos.busquedaAnchura(35, 0);
+    vector<int> ruta = algoritmos.busquedaAnchura(36, 2);
 
     for (int nodo : ruta) {
         cout << nodo << " ";

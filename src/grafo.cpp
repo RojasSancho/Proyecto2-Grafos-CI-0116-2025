@@ -6,19 +6,32 @@ using namespace std;
 Grafo::Grafo(int cantidadNodos)
 {
     this->cantidadNodos = cantidadNodos;
-    this->listaAdyacencia.resize(cantidadNodos); // Crea un vector de pares para cada nodo
+    this->listaAdyacencia.resize(cantidadNodos); // Crear un vector de pares para cada nodo
+    this->nodos.resize(cantidadNodos);
+    this->baseID = -1; // ID de la base se detecta al cargar archivo de texto
 }
 
 // --- Funciones para manejar nodos y aristas ---
 void Grafo::agregarNodo(const Nodo& nodo) {
-    // Evitar agregar nodos fuera de la cantidad de nodos establecida en constructor
-    if (nodos.size() >= cantidadNodos) return; 
-    nodos.push_back(nodo);
+    // Verificar que el ID es válido
+    if (nodo.id < 0 || nodo.id >= cantidadNodos) {
+        cerr << "ID de nodo fuera de rango: " << nodo.id << endl;
+        return;
+    }
+
+    // Colocar el nodo en su posición exacta
+    nodos[nodo.id] = nodo;
+
+    // Guardar ID de la base
+    if (nodo.tipo == 1) {
+        baseID = nodo.id;
+    }
 }
 
 bool Grafo::agregarArista(int origen, int destino, int peso) {
     // Verificar que los índices (id nodos) sean válidos
     if (origen < 0 || origen >= cantidadNodos || destino < 0 || destino >= cantidadNodos) {
+        cerr << "Arista invalida: " << origen << " -> " << destino << endl;
         return false; 
     }
 
@@ -30,32 +43,104 @@ bool Grafo::agregarArista(int origen, int destino, int peso) {
 // --- Funciones auxiliares ---
 // Imprime la información de todos los nodos y sus aristas
 void Grafo::imprimirGrafo() const {
-    for (size_t i=0; i < listaAdyacencia.size(); i++) {
-        cout << i << "(" << nodos[i].tipo << ")" << ": [";
+    for (int i = 0; i < cantidadNodos; i++) {
+        cout << i << " (tipo " << nodos[i].tipo << "): [";
         for (size_t j = 0; j < listaAdyacencia[i].size(); j++) {
             cout    << "(" << listaAdyacencia[i][j].first
                     << ", " << listaAdyacencia[i][j].second << ")";
-            if(j != listaAdyacencia[i].size() - 1) {
-                cout << ", ";
-            }
+            if (j + 1 < listaAdyacencia[i].size()) cout << ", ";
         }
         cout << "]\n";
     }
 }
 
-// Retorna el nodo con el ID dado 
-Nodo Grafo::obtenerNodo(int id) const {
-    return nodos[id];
-}
-
-// Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
+// Retorna vector de nodos adyacentes del nodo con ID dado (id debe ser válido)
 const vector<pair<int,int>>& Grafo::obtenerAdyacentes(int id) const {
+    if (!validarNodo(id)) {
+        static const vector<pair<int,int>> vacio;
+        return vacio;
+    }
     return listaAdyacencia[id];
 }
 
+// Validar nodo (reutilizable)
+bool Grafo::validarNodo(int id) const {
+    return id >= 0 && id < cantidadNodos;
+}
+
 // --- Getters ---
+// Retorna el nodo con el ID dado 
+Nodo Grafo::obtenerNodo(int id) const {
+    // Validar que este dentro del rango
+    if (!validarNodo(id)) {
+        cerr << "obtenerNodo: id fuera de rango\n";
+        return Nodo{-1,0,0,0,0}; 
+    }
+    return nodos[id];
+}
+
 int Grafo::getCantidadNodos() const {
     return cantidadNodos;
+}
+
+int Grafo::getBaseID() const {
+    return baseID;
+}
+
+// Tipo y valor 
+int Grafo::getTipoNodoPorID(int id) const {
+    if (!validarNodo(id)) return -1;
+    return nodos[id].tipo;
+}
+
+int Grafo::getValorNodoPorID(int id) const {
+    if (!validarNodo(id)) return 0;
+    return nodos[id].valor;
+}
+
+// Coordenadas
+int Grafo::getXNodoPorID(int id) const {
+    if (!validarNodo(id)) return 0;
+    return nodos[id].x;
+}
+
+int Grafo::getYNodoPorID(int id) const {
+    if (!validarNodo(id)) return 0;
+    return nodos[id].y;
+}
+
+std::pair<int,int> Grafo::getCoordenadasNodoPorID(int id) const {
+    if (!validarNodo(id)) return {0,0};
+    return {nodos[id].x, nodos[id].y};
+}
+
+// Obtener peso de arista a->b
+int Grafo::getPesoArista(int nodo1, int nodo2) const {
+    if (!validarNodo(nodo1) || !validarNodo(nodo2)) return -1;
+    for (auto& par : listaAdyacencia[nodo1]) {
+        if (par.first == nodo2) return par.second;
+    }
+    return -1;
+}
+
+// Consultar si es base o recurso
+bool Grafo::esRecurso(int id) const {
+    if (!validarNodo(id)) return false;
+    return nodos[id].tipo == 2;
+}
+
+bool Grafo::esBase(int id) const {
+    if (!validarNodo(id)) return false;
+    return nodos[id].tipo == 1;
+}
+
+// Saber si existe arista directa
+bool Grafo::existeArista(int nodo1, int nodo2) const {
+    if (!validarNodo(nodo1) || !validarNodo(nodo2)) return false;
+    for (auto& par : listaAdyacencia[nodo1]) {
+        if (par.first == nodo2) return true;
+    }
+    return false;
 }
 
 // --- Cargar grafo desde archivo .txt
