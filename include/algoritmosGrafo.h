@@ -5,6 +5,7 @@
 #include <vector>
 #include <utility>
 #include <queue> 
+#include <stack>
 #include <algorithm>
 
 class AlgoritmosGrafo {
