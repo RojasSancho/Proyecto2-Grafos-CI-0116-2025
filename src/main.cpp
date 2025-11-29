@@ -7,12 +7,18 @@ int main ()
 {   
     Grafo grafo(50);
     grafo.cargarDesdeArchivo("data/grafo.txt");
-    grafo.imprimirGrafo();
+    // grafo.imprimirGrafo();
 
     AlgoritmosGrafo algoritmos(grafo);
-    vector<int> ruta = algoritmos.busquedaAnchura(36, 2);
+    vector<int> rutaBFS = algoritmos.busquedaAnchura(17, 3);
+    vector<int> rutaDFS = algoritmos.busquedaProfundidad(17, 3);
 
-    for (int nodo : ruta) {
+    for (int nodo : rutaBFS) {
+        cout << nodo << " ";
+    }
+    cout << endl;
+
+    for (int nodo : rutaDFS) {
         cout << nodo << " ";
     }
     cout << endl;

@@ -35,7 +35,7 @@ public:
     std::vector<int> rutaFloydWarshall(int origen, int destino, const std::vector<std::vector<int>>& predecesores);
 
     // Funcion para calcular costo total de una ruta
-    int calcularCosto(const std::vector<int>& ruta);
+    int calcularCostoRuta(const std::vector<int>& ruta);
 
 };
 

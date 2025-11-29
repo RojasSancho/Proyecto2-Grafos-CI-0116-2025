@@ -55,22 +55,24 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
     vector<bool> visitados(cantidadNodos, false);
     vector<int> predecesores(cantidadNodos, -1);    // Un -1 indica que nodo no tiene predecesor o padre
     
-    visitados[inicio] = true;                       // Marcar nodo inicio como visitado
     pila.push(inicio);
 
     while (!pila.empty()) {
         int actual = pila.top();
         pila.pop();
 
-        if (actual == destino) break;
+        if (!visitados[actual]) {   // Marcar aquí, al sacar de la pila
+            visitados[actual] = true;
 
-        // Exploracion en profundidad del DFS
-        for (const auto& vecino : grafo.obtenerAdyacentes(actual)) {
-            int nodoVecino = vecino.first;          // Ignorar el peso y utilizar solo ID de vecinos
-            if (!visitados[nodoVecino]) {
-                visitados[nodoVecino] = true;       // Marcar nodo vecino como visitado
-                predecesores[nodoVecino] = actual;  // Almacenar nodo anterior en vector de predecesores
-                pila.push(nodoVecino);              // Insertar nodo vecino a la pila
+            if (actual == destino) break;
+
+            auto vecinos = grafo.obtenerAdyacentes(actual);
+            for (int i = vecinos.size() - 1; i >= 0; i--) {
+                int nodoVecino = vecinos[i].first;
+                if (!visitados[nodoVecino] && predecesores[nodoVecino] == -1) {
+                    predecesores[nodoVecino] = actual;
+                    pila.push(nodoVecino);
+                }
             }
         }
     }
@@ -87,4 +89,9 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
     // Invertir ruta hecha para tener la correcta
     reverse(ruta.begin(), ruta.end());
     return ruta;
+}
+
+// Funcion para calcular costo total de una ruta
+int AlgoritmosGrafo::calcularCostoRuta(const std::vector<int>& ruta) {
+
 }
