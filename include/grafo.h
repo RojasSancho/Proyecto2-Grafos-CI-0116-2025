@@ -19,6 +19,8 @@ struct Nodo {
 class Grafo {
     private:
         int cantidadNodos;
+        int baseID;
+
         std::vector<Nodo> nodos;   // lista de nodos
         std::vector<std::vector<std::pair<int,int>>> listaAdyacencia; // lista de adyacencia (destino, peso)
     
@@ -43,10 +45,26 @@ class Grafo {
         // Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
         const std::vector<std::pair<int,int>>& obtenerAdyacentes(int id) const;
 
+        // Saber si existe arista directa
+        bool existeArista(int nodo1, int nodo2) const;
+
+        bool validarNodo(int id) const;
+
         // --- Getters ---
         int getCantidadNodos() const;
+        int getBaseID() const;
+        int getPesoArista(int nodo1, int nodo2) const;
+        int getTipoNodoPorID(int id) const;
+        int getValorNodoPorID(int id) const;
+        int getXNodoPorID(int id) const;
+        int getYNodoPorID(int id) const;
+        std::pair<int,int> getCoordenadasNodoPorID(int id) const;
 
-        // --- Cargar grafo desde archivo .txt
+        // Consultar si un nodo es base o recurso
+        bool esRecurso(int id) const;
+        bool esBase(int id) const;
+
+        // --- Cargar grafo desde archivo .txt ---
         void cargarDesdeArchivo(const std::string& nombreArchivo);
 };
 
