@@ -172,11 +172,13 @@ void Grafo::cargarDesdeArchivo(const string& nombreArchivo) {
         char coma;
 
         if (leyendoNodos) {
+            // Agregar linea con informacion de nodo al grafo
             int id, tipo, valor, x, y;
             ss >> id >> coma >> tipo >> coma >> valor >> coma >> x >> coma >> y;
             Nodo nodo{id, tipo, valor, x, y};
             agregarNodo(nodo);
         } else if (leyendoConexiones) {
+            // Agregar linea con informacion de conexion (arista) al grafo
             int origen, destino, peso;
             ss >> origen >> coma >> destino >> coma >> peso;
             agregarArista(origen, destino, peso);

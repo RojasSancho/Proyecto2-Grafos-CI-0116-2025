@@ -12,6 +12,8 @@ vector<int> AlgoritmosGrafo::busquedaAnchura(int inicio, int destino) {
     int cantidadNodos = grafo.getCantidadNodos();
     queue<int> cola;                                // Utilizar principio FIFO para implementar BFS
     vector<bool> visitados(cantidadNodos, false);
+
+    // Para reconstruir MST y rutas
     vector<int> predecesores(cantidadNodos, -1);    // Un -1 indica que nodo no tiene predecesor o padre
 
     visitados[inicio] = true;                       // Marcar nodo inicio como visitado
@@ -34,11 +36,13 @@ vector<int> AlgoritmosGrafo::busquedaAnchura(int inicio, int destino) {
         }
     }
 
-    // Reconstruir la ruta desde destino hasta inicio
-    vector<int> ruta;
-    if (!visitados[destino]) return ruta;           // Si no se llegó al destino, retornar lista vacía
+    // Si no se alcanzó el destino, retornar lista vacía
+    if (!visitados[destino]) return {}; 
 
-    // Usar vector de predecesores para reconstruir ruta inversa
+    // --- Reconstruir la ruta desde destino hasta inicio ---
+    vector<int> ruta;          
+
+    // Usar vector de predecesores para reconstruir ruta desde destino a inicio
     for (int nodoActual = destino; nodoActual != -1; nodoActual = predecesores[nodoActual]) {
         ruta.push_back(nodoActual);
     }
@@ -53,6 +57,8 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
     int cantidadNodos = grafo.getCantidadNodos();
     stack<int> pila;                                // Utilizar principio LIFO para implementar DFS
     vector<bool> visitados(cantidadNodos, false);
+
+    // Para reconstruir rutas
     vector<int> predecesores(cantidadNodos, -1);    // Un -1 indica que nodo no tiene predecesor o padre
     
     pila.push(inicio);
@@ -77,11 +83,13 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
         }
     }
 
-    // Reconstruir la ruta desde destino hasta inicio
-    vector<int> ruta;
-    if (!visitados[destino]) return ruta;           // Si no se llegó al destino, retornar lista vacía
+    // Si no se alcanzó el destino, retornar lista vacía
+    if (!visitados[destino]) return {}; 
 
-    // Usar vector de predecesores para reconstruir ruta inversa
+    // --- Reconstruir la ruta desde destino hasta inicio ---
+    vector<int> ruta;
+
+    // Usar vector de predecesores para reconstruir ruta desde destino a inicio
     for (int nodoActual = destino; nodoActual != -1; nodoActual = predecesores[nodoActual]) {
         ruta.push_back(nodoActual);
     }
@@ -92,6 +100,53 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
 }
 
 // --- Nivel 2: Greedy/Prim ---
+vector<int> AlgoritmosGrafo::algoritmoPrim(int inicio, int destino) {
+    int cantidadNodos = grafo.getCantidadNodos();
+    vector<bool> visitados(cantidadNodos, false);   // Para reconstruir MST y rutas
+    vector<int> predecesores(cantidadNodos, -1);    // Un -1 indica que nodo no tiene predecesor o padre
+
+    // Cola de prioridad o min-heap: (pesoArista, nodoPadre, nodoHijo)
+    priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<>> colaPrioridad;
+
+    // Construir el MST desde el nodo inicio (Utilizando algoritmo de Prim)
+    visitados[inicio] = true;                    // Marcar nodo de inicio como visitado
+    for (auto [vecino, peso] : grafo.obtenerAdyacentes(inicio)) {
+        colaPrioridad.push({peso, inicio, vecino});
+    }
+    
+    // Ciclo principal para crear MST
+    while (!colaPrioridad.empty()) {
+        auto [pesoArista, nodoPadreActual, nodoActual] = colaPrioridad.top();
+        colaPrioridad.pop();
+
+        if (visitados[nodoActual]) continue;
+
+        visitados[nodoActual] = true;
+        predecesores[nodoActual] = nodoPadreActual;
+
+        for (auto [vecino, pesoVecino] : grafo.obtenerAdyacentes(nodoActual)) {
+            if (!visitados[vecino]) {
+                colaPrioridad.push({pesoVecino, nodoActual, vecino});
+            }
+        }
+    }
+
+    // Usar vector de predecesores para reconstruir ruta desde destino a inicio
+    vector<int> ruta;
+
+    if (!visitados[destino]) {
+        // Si no se alcanzó el destino, se retorna vector vacío
+        return {};
+    }
+
+    for (int nodo = destino; nodo != -1; nodo = predecesores[nodo]) {
+        ruta.push_back(nodo);
+    }
+
+    // Invertir ruta hecha para tener la correcta
+    reverse(ruta.begin(), ruta.end());
+    return ruta;
+}
 
 // Funcion para calcular costo total de una ruta
 int AlgoritmosGrafo::calcularCostoRuta(const std::vector<int>& ruta) {
