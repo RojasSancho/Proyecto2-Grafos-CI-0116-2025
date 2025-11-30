@@ -36,7 +36,7 @@ vector<int> AlgoritmosGrafo::busquedaAnchura(int inicio, int destino) {
 
     // Reconstruir la ruta desde destino hasta inicio
     vector<int> ruta;
-    if (!visitados[destino]) return ruta; // Si no se llegó al destino, retornar lista vacía
+    if (!visitados[destino]) return ruta;           // Si no se llegó al destino, retornar lista vacía
 
     // Usar vector de predecesores para reconstruir ruta inversa
     for (int nodoActual = destino; nodoActual != -1; nodoActual = predecesores[nodoActual]) {
@@ -61,7 +61,7 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
         int actual = pila.top();
         pila.pop();
 
-        if (!visitados[actual]) {   // Marcar aquí, al sacar de la pila
+        if (!visitados[actual]) {   
             visitados[actual] = true;
 
             if (actual == destino) break;
@@ -79,7 +79,7 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
 
     // Reconstruir la ruta desde destino hasta inicio
     vector<int> ruta;
-    if (!visitados[destino]) return ruta; // Si no se llegó al destino, retornar lista vacía
+    if (!visitados[destino]) return ruta;           // Si no se llegó al destino, retornar lista vacía
 
     // Usar vector de predecesores para reconstruir ruta inversa
     for (int nodoActual = destino; nodoActual != -1; nodoActual = predecesores[nodoActual]) {
@@ -91,7 +91,18 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
     return ruta;
 }
 
+// --- Nivel 2: Greedy/Prim ---
+
 // Funcion para calcular costo total de una ruta
 int AlgoritmosGrafo::calcularCostoRuta(const std::vector<int>& ruta) {
+    if (ruta.size() < 2) return -1;                 // Si la ruta tiene menos de 2 nodos, no es valida
+    int costoRuta = 0;
 
+    for (int i = 0; i < ruta.size() - 1; i++) {
+        int peso = grafo.getPesoArista(ruta[i], ruta[i+1]);
+        if (peso == -1) return -1;                  // Si no existe una arista en la ruta, no es valida
+        costoRuta += peso;
+    }
+
+    return costoRuta;
 }
