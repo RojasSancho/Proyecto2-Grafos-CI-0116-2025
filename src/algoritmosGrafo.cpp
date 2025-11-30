@@ -106,3 +106,20 @@ int AlgoritmosGrafo::calcularCostoRuta(const std::vector<int>& ruta) {
 
     return costoRuta;
 }
+
+// Funcion para imprimir una ruta de forma legible
+void AlgoritmosGrafo::imprimirRutaConCosto(const std::vector<int>& ruta) {
+    if (ruta.empty()) {
+        cout << "Ruta vacia o no encontrada." << endl;
+        return;
+    }
+
+    int costo = calcularCostoRuta(ruta);
+
+    cout << "Ruta: ";
+    for (size_t i = 0; i < ruta.size(); i++) {
+        cout << ruta[i];
+        if (i != ruta.size() - 1) cout << " -> ";
+    }
+    cout << " | Costo total: " << costo << endl;
+}

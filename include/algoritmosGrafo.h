@@ -37,6 +37,9 @@ public:
     // Funcion para calcular costo total de una ruta
     int calcularCostoRuta(const std::vector<int>& ruta);
 
+    // Funcion para imprimir una ruta de forma legible
+    void imprimirRutaConCosto(const std::vector<int>& ruta);
+
 };
 
 #endif

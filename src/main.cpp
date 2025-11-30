@@ -13,17 +13,10 @@ int main ()
     vector<int> rutaBFS = algoritmos.busquedaAnchura(17, 3);
     vector<int> rutaDFS = algoritmos.busquedaProfundidad(17, 3);
 
-    for (int nodo : rutaBFS) {
-        cout << nodo << " ";
-    }
-    cout << " -> Costo BFS: " << algoritmos.calcularCostoRuta(rutaBFS);
-    cout << endl;
-
-    for (int nodo : rutaDFS) {
-        cout << nodo << " ";
-    }
-    cout << " -> Costo DFS: " << algoritmos.calcularCostoRuta(rutaDFS);
-    cout << endl;
+    algoritmos.imprimirRutaConCosto(rutaBFS);
+    
+    algoritmos.imprimirRutaConCosto(rutaDFS);
+    
 
     return 0; 
 }
