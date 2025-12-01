@@ -1,5 +1,4 @@
 #include "algoritmosGrafo.h"
-
 using namespace std;
 
 //Constructor
