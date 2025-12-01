@@ -147,6 +147,62 @@ vector<int> AlgoritmosGrafo::algoritmoPrim(int inicio, int destino) {
     return ruta;
 }
 
+//Nivel 3: Dijkstra 
+std::vector<int> AlgoritmosGrafo::algoritmoDijkstra(int inicio, int destino){
+    int vertices = grafo.getCantidadNodos(); 
+    const int infinito = INT_MAX/2; // Simulacion de infinito
+
+    vector<int> distancia(vertices, infinito);
+    vector<int> predecesores(vertices, -1);
+    vector<bool> visitados(vertices, false);
+    distancia[inicio]=0;
+
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> colaPrioridad;
+    colaPrioridad.push({0, inicio}); //(distancia, nodo)
+
+    while(!colaPrioridad.empty()){
+        int distanciaActual = colaPrioridad.top().first;
+        int act = colaPrioridad.top().second; //nodo actual
+        colaPrioridad.pop(); 
+
+        if(visitados[act]) continue;
+        visitados[act] = true; 
+        if(act == destino) break;
+
+        // observar todos los vecinos del nodo actual
+        for(const auto& arista: grafo.obtenerAdyacentes(act)){
+            int vertice = arista.first; // nodo vecino
+            int peso = arista.second;   // peso de la trayectoria 
+
+            // calcular la nueva distancia 
+            int nuevaDistancia = distancia[act] + peso;
+
+            // verificar si existe un camino mas corto hacia el vecino
+            if(nuevaDistancia < distancia[vertice]){
+                distancia[vertice] = nuevaDistancia;
+                predecesores[vertice] = act;
+                colaPrioridad.push({nuevaDistancia, vertice});
+            }
+        }
+    }
+
+    //construir la ruta de destino a inicio
+    vector<int> ruta;
+    if(distancia[destino] == infinito){
+        return ruta; //vector vacio
+    }
+
+    for(int nodo= destino; nodo != -1 ; nodo = predecesores[nodo]){
+        ruta.push_back(nodo); 
+    }
+
+    reverse(ruta.begin(), ruta.end()); // invertir la ruta para dar forma: inicio - destino
+
+    return ruta;
+
+
+}
+
 //Nivel 4 : Floyd-Warshall
 std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> AlgoritmosGrafo::algoritmoFloydWarshall() {
 

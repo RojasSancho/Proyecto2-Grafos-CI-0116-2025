@@ -9,7 +9,7 @@ int main ()
     grafo.cargarDesdeArchivo("data/prueba.txt");
     grafo.imprimirGrafo();
 
-    int inicioPruebas = 0;
+    int inicioPruebas = 1;
     int destinoPruebas = 0;
 
     AlgoritmosGrafo algoritmos(grafo);
@@ -35,5 +35,11 @@ int main ()
     //Importante para verificar valores 
     cout << "Distancia minima (verificacion con matriz de costos): " << distancias[inicioPruebas][destinoPruebas] << endl; 
 
+    // Prueba Dijkstra
+    vector<int> rutaDijkstra = algoritmos.algoritmoDijkstra(inicioPruebas, destinoPruebas);
+    cout << "\nDijkstra: " << endl;
+    algoritmos.imprimirRutaConCosto(rutaDijkstra);
+
+    
     return 0; 
 }

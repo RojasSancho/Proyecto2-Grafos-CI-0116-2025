@@ -63,7 +63,7 @@ const vector<pair<int,int>>& Grafo::obtenerAdyacentes(int id) const {
     return listaAdyacencia[id];
 }
 
-// Retorna la matriz de adyacencia con el grafo dado
+// Retorna la matriz de adyacencia con el grafo dado para Floyd-Warshall
 std::vector<std::vector<int>> Grafo::obtenerMatrizAdyacencia()const{
 
     int vertices = cantidadNodos;
