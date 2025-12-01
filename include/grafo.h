@@ -23,7 +23,7 @@ class Grafo {
 
         std::vector<Nodo> nodos;   // lista de nodos
         std::vector<std::vector<std::pair<int,int>>> listaAdyacencia; // lista de adyacencia (destino, peso)
-    
+        
     public:
         // --- Constructor ---
         Grafo(int cantidadNodos);
@@ -45,6 +45,9 @@ class Grafo {
         // Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
         const std::vector<std::pair<int,int>>& obtenerAdyacentes(int id) const;
 
+        //Nos permite obtener la matriz de adyacencia 
+        std::vector<std::vector<int>> obtenerMatrizAdyacencia()const;
+        
         // Saber si existe arista directa
         bool existeArista(int nodo1, int nodo2) const;
 

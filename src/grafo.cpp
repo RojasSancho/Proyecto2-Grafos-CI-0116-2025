@@ -63,6 +63,31 @@ const vector<pair<int,int>>& Grafo::obtenerAdyacentes(int id) const {
     return listaAdyacencia[id];
 }
 
+// Retorna la matriz de adyacencia con el grafo dado para Floyd-Warshall
+std::vector<std::vector<int>> Grafo::obtenerMatrizAdyacencia()const{
+
+    int vertices = cantidadNodos;
+    const int infinito = INT_MAX/2; // valor suficientemente "Grande" para representar valor int infinito
+
+    //inicializa la matriz con infinito
+    std::vector<std::vector<int>> matriz(vertices, std::vector<int>(vertices, infinito));
+    //Diagonal en 0 para FloydWarshall
+    for(int i=0;i<vertices;i++){
+        matriz[i][i]= 0;
+    }
+
+    //llenar la matriz
+    for(int origen=0;origen<vertices;origen++){
+        for(const auto& arista : listaAdyacencia[origen]){
+            int destino = arista.first;
+            int peso = arista.second;
+            matriz[origen][destino]= peso;
+        }
+    }
+
+    return matriz; 
+}
+
 // Validar nodo (reutilizable)
 bool Grafo::validarNodo(int id) const {
     return id >= 0 && id < cantidadNodos;
