@@ -147,6 +147,66 @@ vector<int> AlgoritmosGrafo::algoritmoPrim(int inicio, int destino) {
     return ruta;
 }
 
+//Nivel 4 : Floyd-Warshall
+std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> AlgoritmosGrafo::algoritmoFloydWarshall() {
+
+    int vertices = grafo.getCantidadNodos(); 
+    const int infinito = INT_MAX/2; // Simulacion de infinito
+
+    //matriz de adyacencia desde el grafo
+    std::vector<std::vector<int>> distancias = grafo.obtenerMatrizAdyacencia(); 
+    //matriz de predecesores 
+    std::vector<std::vector<int>> predecesores(vertices, std::vector<int>(vertices,-1));
+
+    //Inicializa la matriz de predecesores 
+    for(int i=0; i < vertices ;i++){
+        for(int j=0; j < vertices ;j++){
+            if(i != j && distancias[i][j] != infinito){
+                predecesores[i][j]= i; 
+            }
+        }
+    }
+      
+    //Algortimo de Floyd-Warshall
+   for(int h=0; h < vertices ;h++){
+    for(int i=0; i < vertices ;i++){
+        for(int j=0; j < vertices ;j++){
+            if(distancias[i][h] != infinito && distancias[h][j] != infinito &&  distancias[i][h] + distancias[h][j] < distancias[i][j]) { // Comparar distancias
+                distancias[i][j] = distancias[i][h] + distancias[h][j];
+                predecesores[i][j] = predecesores[h][j]; 
+            }
+        }
+    }
+}
+
+    return {distancias, predecesores};
+}
+
+//ruta del resultado del algoritmo Floyd-Warshall
+std::vector<int> AlgoritmosGrafo::rutaFloydWarshall(int origen, int destino,  const std::vector<std::vector<int>>& predecesores) {
+    if(predecesores[origen][destino] == -1){ //Por si no hay camino
+        return{};
+    }
+
+    std::vector<int> ruta;
+    int actual = destino;
+
+    //Reconstruir la ruta 
+    while(actual != -1){
+        ruta.push_back(actual);
+        actual = predecesores[origen][actual];
+    }
+
+    //obtener la ruta en orden 
+    std::reverse(ruta.begin(), ruta.end());
+    if(!ruta.empty() && ruta[0] != origen){
+        return {}; //no hay ruta directa
+    }
+
+    return ruta; 
+
+}
+
 // Funcion para calcular costo total de una ruta
 int AlgoritmosGrafo::calcularCostoRuta(const std::vector<int>& ruta) {
     if (ruta.size() < 2) return -1;                 // Si la ruta tiene menos de 2 nodos, no es valida
