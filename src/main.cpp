@@ -7,10 +7,10 @@ int main ()
 {   
     Grafo grafo(50);
     grafo.cargarDesdeArchivo("data/grafo.txt");
-    grafo.imprimirGrafo();
+    // grafo.imprimirGrafo();
 
     int inicioPruebas = 13;
-    int destinoPruebas = 25;
+    int destinoPruebas = 0;
 
     AlgoritmosGrafo algoritmos(grafo);
     vector<int> rutaBFS = algoritmos.busquedaAnchura(inicioPruebas, destinoPruebas);

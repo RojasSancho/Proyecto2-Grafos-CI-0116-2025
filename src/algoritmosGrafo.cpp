@@ -72,7 +72,7 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
             if (actual == destino) break;
 
             auto vecinos = grafo.obtenerAdyacentes(actual);
-            for (int i = vecinos.size() - 1; i >= 0; i--) {
+            for (int i = 0; i < vecinos.size(); i++) {
                 int nodoVecino = vecinos[i].first;
                 if (!visitados[nodoVecino] && predecesores[nodoVecino] == -1) {
                     predecesores[nodoVecino] = actual;
