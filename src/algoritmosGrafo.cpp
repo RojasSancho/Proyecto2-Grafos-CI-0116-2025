@@ -162,22 +162,22 @@ std::vector<int> AlgoritmosGrafo::algoritmoDijkstra(int inicio, int destino){
 
     while(!colaPrioridad.empty()){
         int distanciaActual = colaPrioridad.top().first;
-        int act = colaPrioridad.top().second; //nodo actual
+        int act = colaPrioridad.top().second; // Nodo actual
         colaPrioridad.pop(); 
 
         if(visitados[act]) continue;
         visitados[act] = true; 
         if(act == destino) break;
 
-        // observar todos los vecinos del nodo actual
+        // Observar todos los vecinos del nodo actual
         for(const auto& arista: grafo.obtenerAdyacentes(act)){
-            int vertice = arista.first; // nodo vecino
-            int peso = arista.second;   // peso de la trayectoria 
+            int vertice = arista.first; // Nodo vecino
+            int peso = arista.second;   // Peso de la trayectoria 
 
-            // calcular la nueva distancia 
+            // Calcular la nueva distancia 
             int nuevaDistancia = distancia[act] + peso;
 
-            // verificar si existe un camino mas corto hacia el vecino
+            // Verificar si existe un camino mas corto hacia el vecino
             if(nuevaDistancia < distancia[vertice]){
                 distancia[vertice] = nuevaDistancia;
                 predecesores[vertice] = act;
@@ -186,21 +186,19 @@ std::vector<int> AlgoritmosGrafo::algoritmoDijkstra(int inicio, int destino){
         }
     }
 
-    //construir la ruta de destino a inicio
+    // Construir la ruta de destino a inicio
     vector<int> ruta;
     if(distancia[destino] == infinito){
-        return ruta; //vector vacio
+        return ruta; // Vector vacio
     }
 
     for(int nodo= destino; nodo != -1 ; nodo = predecesores[nodo]){
         ruta.push_back(nodo); 
     }
 
-    reverse(ruta.begin(), ruta.end()); // invertir la ruta para dar forma: inicio - destino
+    reverse(ruta.begin(), ruta.end()); // Invertir la ruta para dar forma: inicio - destino
 
     return ruta;
-
-
 }
 
 //Nivel 4 : Floyd-Warshall
@@ -224,16 +222,17 @@ std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Algoritm
     }
 
     // Algoritmo de Floyd-Warshall
-   for(int h=0; h < vertices ;h++){
-    for(int i=0; i < vertices ;i++){
-        for(int j=0; j < vertices ;j++){
-            if(distancias[i][h] != infinito && distancias[h][j] != infinito &&  distancias[i][h] + distancias[h][j] < distancias[i][j]) { // Comparar distancias
-                distancias[i][j] = distancias[i][h] + distancias[h][j];
-                predecesores[i][j] = predecesores[h][j]; 
+    for(int h=0; h < vertices ;h++){
+        for(int i=0; i < vertices ;i++){
+            for(int j=0; j < vertices ;j++){
+                // Comparar distancias
+                if(distancias[i][h] != infinito && distancias[h][j] != infinito &&  distancias[i][h] + distancias[h][j] < distancias[i][j]) { 
+                    distancias[i][j] = distancias[i][h] + distancias[h][j];
+                    predecesores[i][j] = predecesores[h][j]; 
+                }
             }
         }
     }
-}
 
     return {distancias, predecesores};
 }
