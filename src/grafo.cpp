@@ -35,8 +35,12 @@ bool Grafo::agregarArista(int origen, int destino, int peso) {
         return false; 
     }
 
-    // Agregar la arista a la lista de adyacencia para el nodo de origen indicado
+    // Agregar la conexión de ida (Origen -> Destino)
     listaAdyacencia[origen].push_back({destino, peso});
+
+    // Agregar la conexión de vuelta (Destino -> Origen) 
+    listaAdyacencia[destino].push_back({origen, peso});
+
     return true;
 }
 
