@@ -23,7 +23,6 @@ int main ()
 
     algoritmos.imprimirRutaConCosto(rutaPrim);
     
- 
 
 
     cout << "\n Floyd-Warshall: " << endl;
