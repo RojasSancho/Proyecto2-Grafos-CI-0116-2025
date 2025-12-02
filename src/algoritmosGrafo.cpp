@@ -162,22 +162,22 @@ std::vector<int> AlgoritmosGrafo::algoritmoDijkstra(int inicio, int destino){
 
     while(!colaPrioridad.empty()){
         int distanciaActual = colaPrioridad.top().first;
-        int act = colaPrioridad.top().second; //nodo actual
+        int act = colaPrioridad.top().second; // Nodo actual
         colaPrioridad.pop(); 
 
         if(visitados[act]) continue;
         visitados[act] = true; 
         if(act == destino) break;
 
-        // observar todos los vecinos del nodo actual
+        // Observar todos los vecinos del nodo actual
         for(const auto& arista: grafo.obtenerAdyacentes(act)){
-            int vertice = arista.first; // nodo vecino
-            int peso = arista.second;   // peso de la trayectoria 
+            int vertice = arista.first; // Nodo vecino
+            int peso = arista.second;   // Peso de la trayectoria 
 
-            // calcular la nueva distancia 
+            // Calcular la nueva distancia 
             int nuevaDistancia = distancia[act] + peso;
 
-            // verificar si existe un camino mas corto hacia el vecino
+            // Verificar si existe un camino mas corto hacia el vecino
             if(nuevaDistancia < distancia[vertice]){
                 distancia[vertice] = nuevaDistancia;
                 predecesores[vertice] = act;
@@ -186,21 +186,19 @@ std::vector<int> AlgoritmosGrafo::algoritmoDijkstra(int inicio, int destino){
         }
     }
 
-    //construir la ruta de destino a inicio
+    // Construir la ruta de destino a inicio
     vector<int> ruta;
     if(distancia[destino] == infinito){
-        return ruta; //vector vacio
+        return ruta; // Vector vacio
     }
 
     for(int nodo= destino; nodo != -1 ; nodo = predecesores[nodo]){
         ruta.push_back(nodo); 
     }
 
-    reverse(ruta.begin(), ruta.end()); // invertir la ruta para dar forma: inicio - destino
+    reverse(ruta.begin(), ruta.end()); // Invertir la ruta para dar forma: inicio - destino
 
     return ruta;
-
-
 }
 
 //Nivel 4 : Floyd-Warshall
@@ -209,12 +207,12 @@ std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Algoritm
     int vertices = grafo.getCantidadNodos(); 
     const int infinito = INT_MAX/2; // Simulacion de infinito
 
-    //matriz de adyacencia desde el grafo
+    // Matriz de adyacencia desde el grafo
     std::vector<std::vector<int>> distancias = grafo.obtenerMatrizAdyacencia(); 
-    //matriz de predecesores 
+    // Matriz de predecesores 
     std::vector<std::vector<int>> predecesores(vertices, std::vector<int>(vertices,-1));
 
-    //Inicializa la matriz de predecesores 
+    // Inicializar la matriz de predecesores 
     for(int i=0; i < vertices ;i++){
         for(int j=0; j < vertices ;j++){
             if(i != j && distancias[i][j] != infinito){
@@ -222,23 +220,24 @@ std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> Algoritm
             }
         }
     }
-      
-    //Algortimo de Floyd-Warshall
-   for(int h=0; h < vertices ;h++){
-    for(int i=0; i < vertices ;i++){
-        for(int j=0; j < vertices ;j++){
-            if(distancias[i][h] != infinito && distancias[h][j] != infinito &&  distancias[i][h] + distancias[h][j] < distancias[i][j]) { // Comparar distancias
-                distancias[i][j] = distancias[i][h] + distancias[h][j];
-                predecesores[i][j] = predecesores[h][j]; 
+
+    // Algoritmo de Floyd-Warshall
+    for(int h=0; h < vertices ;h++){
+        for(int i=0; i < vertices ;i++){
+            for(int j=0; j < vertices ;j++){
+                // Comparar distancias
+                if(distancias[i][h] != infinito && distancias[h][j] != infinito &&  distancias[i][h] + distancias[h][j] < distancias[i][j]) { 
+                    distancias[i][j] = distancias[i][h] + distancias[h][j];
+                    predecesores[i][j] = predecesores[h][j]; 
+                }
             }
         }
     }
-}
 
     return {distancias, predecesores};
 }
 
-//ruta del resultado del algoritmo Floyd-Warshall
+// Ruta del resultado del algoritmo Floyd-Warshall
 std::vector<int> AlgoritmosGrafo::rutaFloydWarshall(int origen, int destino,  const std::vector<std::vector<int>>& predecesores) {
     if(predecesores[origen][destino] == -1){ //Por si no hay camino
         return{};
@@ -247,16 +246,16 @@ std::vector<int> AlgoritmosGrafo::rutaFloydWarshall(int origen, int destino,  co
     std::vector<int> ruta;
     int actual = destino;
 
-    //Reconstruir la ruta 
+    // Reconstruir la ruta 
     while(actual != -1){
         ruta.push_back(actual);
         actual = predecesores[origen][actual];
     }
 
-    //obtener la ruta en orden 
+    // Obtener la ruta en orden 
     std::reverse(ruta.begin(), ruta.end());
     if(!ruta.empty() && ruta[0] != origen){
-        return {}; //no hay ruta directa
+        return {}; // En caso en que no hay ruta directa
     }
 
     return ruta; 

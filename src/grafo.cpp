@@ -35,8 +35,12 @@ bool Grafo::agregarArista(int origen, int destino, int peso) {
         return false; 
     }
 
-    // Agregar la arista a la lista de adyacencia para el nodo de origen indicado
+    // Agregar la conexión de ida (Origen -> Destino)
     listaAdyacencia[origen].push_back({destino, peso});
+
+    // Agregar la conexión de vuelta (Destino -> Origen) 
+    listaAdyacencia[destino].push_back({origen, peso});
+
     return true;
 }
 
@@ -67,16 +71,16 @@ const vector<pair<int,int>>& Grafo::obtenerAdyacentes(int id) const {
 std::vector<std::vector<int>> Grafo::obtenerMatrizAdyacencia()const{
 
     int vertices = cantidadNodos;
-    const int infinito = INT_MAX/2; // valor suficientemente "Grande" para representar valor int infinito
+    const int infinito = INT_MAX/2; // Valor suficientemente "Grande" para representar valor int infinito
 
-    //inicializa la matriz con infinito
+    // Inicializar la matriz con infinito
     std::vector<std::vector<int>> matriz(vertices, std::vector<int>(vertices, infinito));
-    //Diagonal en 0 para FloydWarshall
+    // Diagonal en 0 para Floyd-Warshall
     for(int i=0;i<vertices;i++){
         matriz[i][i]= 0;
     }
 
-    //llenar la matriz
+    // Llenar la matriz
     for(int origen=0;origen<vertices;origen++){
         for(const auto& arista : listaAdyacencia[origen]){
             int destino = arista.first;
