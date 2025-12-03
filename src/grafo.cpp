@@ -111,6 +111,15 @@ Nodo Grafo::obtenerNodo(int id) const {
     return nodos[id];
 }
 
+// Retorna referencia al nodo real (permite modificarlo)
+Nodo& Grafo::obtenerNodoReferencia(int id) {
+    if (!validarNodo(id)) {
+        cerr << "obtenerNodoRef: id fuera de rango\n";
+        throw std::out_of_range("Nodo inválido");
+    }
+    return nodos[id];
+}
+
 int Grafo::getCantidadNodos() const {
     return cantidadNodos;
 }

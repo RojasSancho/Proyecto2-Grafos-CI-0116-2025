@@ -45,6 +45,9 @@ class Grafo {
         // Retorna el nodo con el ID dado 
         Nodo obtenerNodo(int id) const;
 
+        // Retorna referencia al nodo real (permite modificarlo)
+        Nodo& obtenerNodoReferencia(int id);
+
         // Retorna los nodos adyacentes del nodo con ID dado (id debe ser válido)
         const std::vector<std::pair<int,int>>& obtenerAdyacentes(int id) const;
 
