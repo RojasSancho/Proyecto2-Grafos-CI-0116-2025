@@ -11,6 +11,9 @@ Grafo::Grafo(int cantidadNodos)
     this->baseID = -1; // ID de la base se detecta al cargar archivo de texto
 }
 
+Grafo::Grafo() {
+}
+
 // --- Funciones para manejar nodos y aristas ---
 void Grafo::agregarNodo(const Nodo& nodo) {
     // Verificar que el ID es válido

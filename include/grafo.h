@@ -14,6 +14,8 @@ struct Nodo {
     int tipo;      // 0 = vacío, 1 = base, 2 = recurso
     int valor;     // valor del recurso si aplica
     int x, y;      // coordenadas opcionales para visualización
+    bool existeMaquina = false; // Verifica si hay una máquina en el nodo
+    int nivelMaquina = 0; // Nivel de la máquina en el nodo
 };
 
 class Grafo {
@@ -27,6 +29,7 @@ class Grafo {
     public:
         // --- Constructor ---
         Grafo(int cantidadNodos);
+        Grafo();
 
         // --- Funciones para manejar nodos y aristas ---
         // Agrega un nodo al grafo

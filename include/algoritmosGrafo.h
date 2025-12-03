@@ -1,7 +1,7 @@
 #ifndef ALGORITMOSGRAFO_H
 #define ALGORITMOSGRAFO_H
 
-#include "Grafo.h" 
+#include "grafo.h" 
 #include <vector>
 #include <utility>
 #include <queue> 
