@@ -6,6 +6,12 @@
 #include <vector>
 #include <string>
 
+// =Resultado que la GUI puede usar
+struct ResultadoAccion {
+    bool exito;
+    std::string mensaje;
+};
+
 // Struct para gestionar cada tuberia ya instalada
 struct MaquinaInstalada {
     int idNodoRecurso;
@@ -39,22 +45,22 @@ class Jugador {
 
         // --- Funciones para manejar acciones del jugador ---
         //Mueve el jugador de un nodo a otro, descontando la bateria correspondiente
-        void moverJugador(int idDestino); 
+        ResultadoAccion moverJugador(int idDestino); 
 
         //Define si se puede realizar alguna accion en el nodo actual o si simplemente es de paso
-        void accionesEnNodo(); 
+        ResultadoAccion accionesEnNodo(); 
 
         // Ciclo de economia del juego
-        void cicloEconomico();
+        ResultadoAccion cicloEconomico();
 
         //BFS =1, DFS = 2
-        void comprarMaquina(int algoritmoElegido, AlgoritmosGrafo& algoritmo);
+        ResultadoAccion comprarMaquina(int algoritmoElegido, AlgoritmosGrafo& algoritmo);
 
         //En caso de existir una maquina en el nodo actual, aumenta su nivel
-        void actualizarMaquina(int nivelEsperado, AlgoritmosGrafo& algoritmo);
+        ResultadoAccion actualizarMaquina(int nivelEsperado, AlgoritmosGrafo& algoritmo);
 
         // --- Estados de victoria/derrota ---
-        void estadoJugador();
+        ResultadoAccion estadoJugador();
 
         // --- Getters ---
         int getBateria() const;
