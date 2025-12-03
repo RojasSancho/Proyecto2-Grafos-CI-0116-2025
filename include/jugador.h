@@ -25,11 +25,11 @@ class Jugador {
 
         // Constantes del juego (inicializadas en el .cpp)
         const int BATERIA_MAXIMA;
-        const int RECARGA_PARCIAL_PCT;
+        const int RECARGA_PARCIAL_PORCENTAJE;
         const int COSTO_MOTOR_PLASMA;
         const int COSTO_MAQUINA_NIVEL_1; 
         const int COSTO_ACTUALIZAR_NIVEL_2; 
-        const int COSTO_ACTUALIZAR_NIVEL_3;
+        const int COSTO_ACTUALIZAR_NIVEL_3_4;
 
         std::vector<MaquinaInstalada> maquinasInstaladas;
 

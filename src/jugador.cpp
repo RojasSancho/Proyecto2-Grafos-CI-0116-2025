@@ -9,17 +9,18 @@ Jugador::Jugador(Grafo& grafo, int bateria, int ubicacion, int saldoRecursos)
 : grafo(grafo), bateria(bateria), ubicacion(ubicacion), saldoRecursos(saldoRecursos),
     // Inicializacion de constantes del juego
     BATERIA_MAXIMA(100), 
-    RECARGA_PARCIAL_PCT(60), 
-    COSTO_MOTOR_PLASMA(5000), 
+    RECARGA_PARCIAL_PORCENTAJE(60), 
+    COSTO_MOTOR_PLASMA(4000), 
     COSTO_MAQUINA_NIVEL_1(50), 
-    COSTO_ACTUALIZAR_NIVEL_2(100), 
-    COSTO_ACTUALIZAR_NIVEL_3(200) 
+    COSTO_ACTUALIZAR_NIVEL_2(150), 
+    COSTO_ACTUALIZAR_NIVEL_3_4(300) 
 {}
 
 // Movimiento del jugador
 void Jugador::moverJugador(int idDestino) {
     // Validar arista
     if (!grafo.existeArista(ubicacion, idDestino)) {
+        cerr << "Error: No existe arista directa entre nodo " << ubicacion << " y " << idDestino << endl;
         // La GUI debe notificar que no existe camino
         return;
     }
@@ -28,7 +29,9 @@ void Jugador::moverJugador(int idDestino) {
 
     // Verificar batería insuficiente
     if (bateria < costo) {
-        bateria = 0;     // Se queda sin batería
+        bateria = 0;     // Se queda sin batería (condición de derrota)
+        cout << "¡Bateria agotada! Costo de movimiento: " << costo << endl;
+        estadoJugador(); // Chequear derrota inmediatamente
         return;
     }
 
@@ -38,6 +41,13 @@ void Jugador::moverJugador(int idDestino) {
 
     // Acciones segun nodo
     accionesEnNodo();
+
+    // Impresión de estado actual después del movimiento
+    cout << "\n--- Estado Actual ---" << endl;
+    cout << "Ubicacion: Nodo " << ubicacion << endl;
+    cout << "Bateria: " << bateria << " / " << BATERIA_MAXIMA << endl;
+    cout << "Recursos: " << saldoRecursos << endl;
+    cout << "---------------------\n" << endl;
 
     // Evaluar victoria o derrota
     estadoJugador();
@@ -51,17 +61,21 @@ void Jugador::accionesEnNodo() {
     case 1:
         // Nodo base: recarga completa
         bateria = BATERIA_MAXIMA;
+        cout << "Regreso a la Base. Bateria restaurada al 100%." << endl;
         break;
     case 2:
         // Nodo con recursos: recarga parcial de bateria si hay máquina instalada
         if (nodoActual.existeMaquina) {
-            int recargaLimite = (BATERIA_MAXIMA * RECARGA_PARCIAL_PCT) / 100; // 60%
+            int recargaLimite = (BATERIA_MAXIMA * RECARGA_PARCIAL_PORCENTAJE) / 100; // 60%
             if (bateria < recargaLimite) {
                 bateria = recargaLimite;
+                cout << "Recarga parcial en maquina. Bateria al " << RECARGA_PARCIAL_PORCENTAJE << "%." << endl;
             }
         }
         break;
     default:
+        // Nodo Vacio (Tipo 0): solo paso
+        cout << "Terreno baldio. Continuar explorando." << endl;
         break;
     }
 }
@@ -128,8 +142,8 @@ void Jugador::actualizarMaquina(int nivelEsperado, AlgoritmosGrafo& algoritmo) {
     
     int costoUpgrade = 0;
     if (nivelEsperado == 2) costoUpgrade = COSTO_ACTUALIZAR_NIVEL_2;
-    else if (nivelEsperado == 3) costoUpgrade = COSTO_ACTUALIZAR_NIVEL_3;
-    else if (nivelEsperado == 4) costoUpgrade = COSTO_ACTUALIZAR_NIVEL_3;
+    else if (nivelEsperado == 3) costoUpgrade = COSTO_ACTUALIZAR_NIVEL_3_4;
+    else if (nivelEsperado == 4) costoUpgrade = COSTO_ACTUALIZAR_NIVEL_3_4;
     else return; 
 
     if (saldoRecursos < costoUpgrade) return;
