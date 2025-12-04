@@ -6,7 +6,7 @@
 #include <vector>
 #include <string>
 
-// =Resultado que la GUI puede usar
+// Resultado que la GUI puede usar
 struct ResultadoAccion {
     bool exito;
     std::string mensaje;
@@ -29,7 +29,7 @@ class Jugador {
         int ubicacion;
         int saldoRecursos;
 
-        // Constantes del juego (inicializadas en el .cpp)
+        // Constantes del juego
         const int BATERIA_MAXIMA;
         const int RECARGA_PARCIAL_PORCENTAJE;
         const int COSTO_MOTOR_PLASMA;
@@ -38,12 +38,13 @@ class Jugador {
         const int COSTO_ACTUALIZAR_NIVEL_3_4;
 
         std::vector<MaquinaInstalada> maquinasInstaladas;
+        int motorComprado;
 
     public:
-        // --- Constructor ---
+        // Constructor
         Jugador(Grafo& grafo, int bateria, int ubicacion, int saldoRecursos);
 
-        // --- Funciones para manejar acciones del jugador ---
+        // Funciones para manejar acciones del jugador
         //Mueve el jugador de un nodo a otro, descontando la bateria correspondiente
         ResultadoAccion moverJugador(int idDestino); 
 
@@ -59,16 +60,45 @@ class Jugador {
         //En caso de existir una maquina en el nodo actual, aumenta su nivel
         ResultadoAccion actualizarMaquina(int nivelEsperado, AlgoritmosGrafo& algoritmo);
 
-        // --- Estados de victoria/derrota ---
+        // Estados de victoria/derrota
         ResultadoAccion estadoJugador();
 
-        // --- Getters ---
+        // Comprar el motor de plasma (condicion de victoria)
+        ResultadoAccion comprarMotorPlasma();
+
+        ResultadoAccion reiniciarPartida();
+
+
+        // Getters
         int getBateria() const;
         int getUbicacion() const;
         int getRecursos() const;
 
         // Getter para la interfaz: devuelve la lista de tuberías instaladas
-        const std::vector<MaquinaInstalada>& getMaquinasInstaladas() const { return maquinasInstaladas; }
+        const std::vector<MaquinaInstalada>& getMaquinasInstaladas() const { 
+            return maquinasInstaladas; 
+        }
+
+        // Getters para costos y configuraciones del juego
+        int getCostoMaquinaNivel1() const { 
+            return COSTO_MAQUINA_NIVEL_1; 
+        }
+        int getCostoActualizarNivel2() const { 
+            return COSTO_ACTUALIZAR_NIVEL_2; 
+        }
+        int getCostoActualizarNivel3_4() const { 
+            return COSTO_ACTUALIZAR_NIVEL_3_4; 
+        }
+        int getCostoMotorPlasma() const { 
+            return COSTO_MOTOR_PLASMA; 
+        }
+        int getBateriaMaxima() const { 
+            return BATERIA_MAXIMA; 
+        }
+        int getPorcentajeRecargaParcial() const { 
+            return RECARGA_PARCIAL_PORCENTAJE; 
+        }
+
 };
 
 #endif

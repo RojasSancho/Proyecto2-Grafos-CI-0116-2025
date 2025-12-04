@@ -2,18 +2,19 @@
 #define GRAFO_H
 
 #include <vector>
-#include <utility>   // para std::pair
+#include <utility> 
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include <climits>
 
 struct Nodo {
-    int id;        // ID del nodo
-    int tipo;      // 0 = vacío, 1 = base, 2 = recurso
-    int valor;     // valor del recurso si aplica
-    int x, y;      // coordenadas opcionales para visualización
+    int id;  // ID del nodo
+    int tipo; // 0 = vacío, 1 = base, 2 = recurso
+    int valor; // valor del recurso si aplica
+    int x, y;  // coordenadas opcionales para visualización
     bool existeMaquina = false; // Verifica si hay una máquina en el nodo
     int nivelMaquina = 0; // Nivel de la máquina en el nodo
 };
@@ -27,18 +28,18 @@ class Grafo {
         std::vector<std::vector<std::pair<int,int>>> listaAdyacencia; // lista de adyacencia (destino, peso)
         
     public:
-        // --- Constructor ---
+        //  Constructor 
         Grafo(int cantidadNodos);
         Grafo();
 
-        // --- Funciones para manejar nodos y aristas ---
+        // Funciones para manejar nodos y aristas 
         // Agrega un nodo al grafo
         void agregarNodo(const Nodo& nodo);
 
         //Agrega una arista dirigida desde 'origen' a 'destino' con un peso
         bool agregarArista(int origen, int destino, int peso);
 
-        // --- Funciones auxiliares ---
+        // Funciones auxiliares 
         // Imprime la información de todos los nodos y sus aristas
         void imprimirGrafo() const;
 
@@ -59,7 +60,7 @@ class Grafo {
 
         bool validarNodo(int id) const;
 
-        // --- Getters ---
+        // Getters 
         int getCantidadNodos() const;
         int getBaseID() const;
         int getPesoArista(int nodo1, int nodo2) const;
@@ -73,7 +74,7 @@ class Grafo {
         bool esRecurso(int id) const;
         bool esBase(int id) const;
 
-        // --- Cargar grafo desde archivo .txt ---
+        // Cargar grafo desde archivo .txt 
         void cargarDesdeArchivo(const std::string& nombreArchivo);
 };
 

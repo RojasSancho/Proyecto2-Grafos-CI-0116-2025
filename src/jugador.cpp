@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// --- Constructor ---
+// Constructor
 Jugador::Jugador(Grafo& grafo, int bateria, int ubicacion, int saldoRecursos)
 : grafo(grafo), bateria(bateria), ubicacion(ubicacion), saldoRecursos(saldoRecursos),
     // Inicializacion de constantes del juego
@@ -14,7 +14,32 @@ Jugador::Jugador(Grafo& grafo, int bateria, int ubicacion, int saldoRecursos)
     COSTO_MAQUINA_NIVEL_1(50), 
     COSTO_ACTUALIZAR_NIVEL_2(150), 
     COSTO_ACTUALIZAR_NIVEL_3_4(300) 
-{}
+{
+
+    motorComprado = 0;
+}
+
+ResultadoAccion Jugador::reiniciarPartida() {
+    // volver a valores iniciales
+    bateria = BATERIA_MAXIMA;
+    ubicacion = grafo.getBaseID();  // normalmente nodo 0
+    saldoRecursos = 100;
+    motorComprado = 0;
+
+    // borrar maquinas instaladas
+    maquinasInstaladas.clear();
+
+    // limpiar el estado de los nodos de recurso en el grafo
+    int n = grafo.getCantidadNodos();
+    for (int i = 0; i < n; i++) {
+        Nodo& nodo = grafo.obtenerNodoReferencia(i);
+        nodo.existeMaquina = false;
+        nodo.nivelMaquina  = 0;
+    }
+
+    return {true, "Partida reiniciada."};
+}
+
 
 // Movimiento del jugador
 ResultadoAccion Jugador::moverJugador(int idDestino) {
@@ -29,11 +54,13 @@ ResultadoAccion Jugador::moverJugador(int idDestino) {
 
     // Verificar batería insuficiente
     if (bateria < costo) {
-        bateria = 0;     // Se queda sin batería (condición de derrota)
-        cout << "¡Bateria agotada! Costo de movimiento: " << costo << endl;
-        estadoJugador(); // Chequear derrota inmediatamente
-        return {false, "Batería insuficiente para moverse. Batería agotada."};
-    }
+    bateria = 0;     // Se queda sin batería (condición de derrota)
+    cout << "¡Bateria agotada! Costo de movimiento: " << costo << endl;
+
+    ResultadoAccion est = estadoJugador();  // ahora si usamos el resultado
+    return est;  // aqui llega "Derrota: Te quedaste sin bateria."
+}
+
 
     // Mover
     bateria -= costo;
@@ -43,7 +70,7 @@ ResultadoAccion Jugador::moverJugador(int idDestino) {
     auto resNodo = accionesEnNodo();
     if (!resNodo.exito) return resNodo;
 
-    // Impresión de estado actual después del movimiento
+    // Impresion de estado actual despues del movimiento
     cout << "\n--- Estado Actual ---" << endl;
     cout << "Ubicacion: Nodo " << ubicacion << endl;
     cout << "Bateria: " << bateria << " / " << BATERIA_MAXIMA << endl;
@@ -54,10 +81,10 @@ ResultadoAccion Jugador::moverJugador(int idDestino) {
     auto resEstado = estadoJugador();
     if (!resEstado.exito) return resEstado;
 
-    return {true, "Jugador movido a nodo " + to_string(ubicacion)};
+    return {true, "Jugador se movio a nodo " + to_string(ubicacion)};
 }
 
-// Acciones según el tipo de nodo
+// Acciones segun el tipo de nodo
 ResultadoAccion Jugador::accionesEnNodo() {
     Nodo& nodoActual = grafo.obtenerNodoReferencia(ubicacion);
 
@@ -83,8 +110,8 @@ ResultadoAccion Jugador::accionesEnNodo() {
     }
 }
 
-// Ciclo Económico 
-// Generación de recursos periódica por las tuberías instaladas
+// Ciclo Economico 
+// Generación de recursos periodica por las tuberías instaladas
 ResultadoAccion Jugador::cicloEconomico() {
     cout << "--- CICLO ECONOMICO INICIADO ---" << endl;
     int recursosGenerados = 0;
@@ -99,9 +126,9 @@ ResultadoAccion Jugador::cicloEconomico() {
     return {true, "Ganaste +" + to_string(recursosGenerados) + " recursos este ciclo. Total: " + to_string(saldoRecursos)};
 }
 
-// --- Funciones de Máquinas (Implementación de Economía y Rutas) ---
+// Funciones de Maquinas (Implementacion de Economia y Rutas)
 
-// Compra de máquina en nodo actual (Nivel 1: BFS o DFS)
+// Compra de maquina en nodo actual (Nivel 1: BFS o DFS)
 ResultadoAccion Jugador::comprarMaquina(int algoritmoElegido, AlgoritmosGrafo& algoritmo) {
     Nodo& nodo = grafo.obtenerNodoReferencia(ubicacion);
     int baseID = grafo.getBaseID();
@@ -156,7 +183,7 @@ ResultadoAccion Jugador::comprarMaquina(int algoritmoElegido, AlgoritmosGrafo& a
     return {true, "Máquina Nivel 1 (" + nombreAlgoritmo + ") instalada. Ganancia neta: " + to_string(gananciaNeta)};
 }
 
-// Actualizar máquina
+// Actualizar maquina
 ResultadoAccion Jugador::actualizarMaquina(int nivelEsperado, AlgoritmosGrafo& algoritmo) {
     Nodo& nodo = grafo.obtenerNodoReferencia(ubicacion);
     int baseID = grafo.getBaseID();
@@ -208,7 +235,7 @@ ResultadoAccion Jugador::actualizarMaquina(int nivelEsperado, AlgoritmosGrafo& a
     saldoRecursos -= costoUpgrade;
     nodo.nivelMaquina = nivelEsperado; 
 
-    // Actualizar el registro de máquinas
+    // Actualizar el registro de maquinas
     auto it = std::find_if(
         maquinasInstaladas.begin(),
         maquinasInstaladas.end(),
@@ -231,11 +258,32 @@ ResultadoAccion Jugador::estadoJugador() {
     if (bateria <= 0)
         return {false, "Derrota: Te quedaste sin batería."};
 
-    if (saldoRecursos >= COSTO_MOTOR_PLASMA)
-        return {false, "Victoria: Construiste el motor de plasma."};
+    if (motorComprado == 1)
+        return {false, "Victoria: Compraste el motor de plasma."};
 
     return {true, "Estado OK"};
 }
+ResultadoAccion Jugador::comprarMotorPlasma() {
+    if (motorComprado == 1) {
+        return {false, "El motor de plasma ya fue comprado."};
+    }
+
+    // exigir estar en la base
+    int idBase = grafo.getBaseID();
+    if (ubicacion != idBase) {
+        return {false, "Debes estar en la base para comprar el motor de plasma."};
+    }
+
+    if (saldoRecursos < COSTO_MOTOR_PLASMA) {
+        return {false, "Recursos insuficientes para comprar el motor de plasma."};
+    }
+
+    saldoRecursos -= COSTO_MOTOR_PLASMA;
+    motorComprado = 1;
+
+    return {true, "Victoria: compraste el motor de plasma."};
+}
+
 // Getters
 int Jugador::getBateria() const { return bateria; }
 int Jugador::getUbicacion() const { return ubicacion; }
