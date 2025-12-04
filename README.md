@@ -1,6 +1,13 @@
 # Proyecto II – Protocolo de Grafos  
 ---
 
+## Integrantes del proyecto
+ - Brandon Alfaro Saborio - C4C251
+ - Esteban Miranda Parajeles - C14801
+ - Hermes Josue Rojas Sancho - C16882
+ - Henry Josué Rodríguez Sánchez - C26700
+
+
 ## Requisitos del Sistema
 
 ### **1. Lenguaje y Librerías**
