@@ -1,12 +1,15 @@
 #ifndef ALGORITMOSGRAFO_H
 #define ALGORITMOSGRAFO_H
 
-#include "Grafo.h" 
+#include "grafo.h" 
 #include <vector>
 #include <utility>
 #include <queue> 
 #include <stack>
 #include <algorithm>
+#include <climits>
+#include <tuple>
+
 
 class AlgoritmosGrafo {
 private:
@@ -16,19 +19,19 @@ public:
     // Constructor
     AlgoritmosGrafo(Grafo& grafo);
 
-    // --- METODOS DE ALGORITMOS (Devuelven un vector con la ruta generada) ---
+    // Metodos de algoritmos (Devuelven un vector con la ruta generada)
 
-    // --- Nivel 1: BFS y DFS ---
+    // Nivel 1: BFS y DFS
     std::vector<int> busquedaAnchura(int inicio, int destino);
     std::vector<int> busquedaProfundidad(int inicio, int destino);
 
-    // --- Nivel 2: Greedy/Prim ---
+    // Nivel 2: Greedy/Prim
     std::vector<int> algoritmoPrim(int inicio, int destino);
 
-    // --- Nivel 3: Dijkstra ---
+    // Nivel 3: Dijkstra
     std::vector<int> algoritmoDijkstra(int inicio, int destino);
 
-    // --- Nivel 4: Floyd-Warshall ---
+    // Nivel 4: Floyd-Warshall
     // Devuelve un par de matrices: primera = distancias, segunda = predecesores
     std::pair<std::vector<std::vector<int>>, std::vector<std::vector<int>>> algoritmoFloydWarshall();
     // Reconstruye la ruta desde 'origen' hasta 'destino' usando la matriz de predecesores de Floyd-Warshall

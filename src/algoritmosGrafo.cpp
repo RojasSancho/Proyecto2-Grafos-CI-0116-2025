@@ -1,44 +1,44 @@
-#include "algoritmosGrafo.h"
+#include "../include/algoritmosGrafo.h"
 using namespace std;
 
 //Constructor
 AlgoritmosGrafo::AlgoritmosGrafo(Grafo& grafo) : grafo(grafo){}
 
-// --- METODOS DE ALGORITMOS (Devuelven un vector con la ruta generada) ---
+// Metodos de algoritmos (Devuelven un vector con la ruta generada) 
 
-// --- Nivel 1: BFS/Busqueda en Anchura ---
+// Nivel 1: BFS/Busqueda en Anchura 
 vector<int> AlgoritmosGrafo::busquedaAnchura(int inicio, int destino) {
     int cantidadNodos = grafo.getCantidadNodos();
-    queue<int> cola;                                // Utilizar principio FIFO para implementar BFS
+    queue<int> cola; // Utilizar principio FIFO para implementar BFS
     vector<bool> visitados(cantidadNodos, false);
 
     // Para reconstruir MST y rutas
-    vector<int> predecesores(cantidadNodos, -1);    // Un -1 indica que nodo no tiene predecesor o padre
+    vector<int> predecesores(cantidadNodos, -1);  // Un -1 indica que nodo no tiene predecesor o padre
 
-    visitados[inicio] = true;                       // Marcar nodo inicio como visitado
+    visitados[inicio] = true;  // Marcar nodo inicio como visitado
     cola.push(inicio);
 
     while (!cola.empty()) {
         int actual = cola.front();
         cola.pop();
 
-        if (actual == destino) break;               // Salir del ciclo al llegar al destino
+        if (actual == destino) break;  // Salir del ciclo al llegar al destino
 
         // Exploracion por capas del BFS
         for (const auto& vecino : grafo.obtenerAdyacentes(actual)) {
-            int nodoVecino = vecino.first;          // Ignorar el peso y utilizar solo ID de vecinos
+            int nodoVecino = vecino.first;  // Ignorar el peso y utilizar solo ID de vecinos
             if (!visitados[nodoVecino]) {
-                visitados[nodoVecino] = true;       // Marcar nodo vecino como visitado
+                visitados[nodoVecino] = true; // Marcar nodo vecino como visitado
                 predecesores[nodoVecino] = actual;  // Almacenar nodo anterior en vector de predecesores
-                cola.push(nodoVecino);              // Insertar nodo vecino a la cola
+                cola.push(nodoVecino);  // Insertar nodo vecino a la cola
             }
         }
     }
 
-    // Si no se alcanzó el destino, retornar lista vacía
+    // Si no se alcanzo el destino, retornar lista vacía
     if (!visitados[destino]) return {}; 
 
-    // --- Reconstruir la ruta desde destino hasta inicio ---
+    // Reconstruir la ruta desde destino hasta inicio 
     vector<int> ruta;          
 
     // Usar vector de predecesores para reconstruir ruta desde destino a inicio
@@ -51,10 +51,10 @@ vector<int> AlgoritmosGrafo::busquedaAnchura(int inicio, int destino) {
     return ruta;
 }
 
-// --- Nivel 1: DFS/Busqueda en Profundidad ---
+// Nivel 1: DFS/Busqueda en Profundidad 
 vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
     int cantidadNodos = grafo.getCantidadNodos();
-    stack<int> pila;                                // Utilizar principio LIFO para implementar DFS
+    stack<int> pila;  // Utilizar principio LIFO para implementar DFS
     vector<bool> visitados(cantidadNodos, false);
 
     // Para reconstruir rutas
@@ -82,10 +82,10 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
         }
     }
 
-    // Si no se alcanzó el destino, retornar lista vacía
+    // Si no se alcanzo el destino, retornar lista vacía
     if (!visitados[destino]) return {}; 
 
-    // --- Reconstruir la ruta desde destino hasta inicio ---
+    // Reconstruir la ruta desde destino hasta inicio 
     vector<int> ruta;
 
     // Usar vector de predecesores para reconstruir ruta desde destino a inicio
@@ -98,17 +98,17 @@ vector<int> AlgoritmosGrafo::busquedaProfundidad(int inicio, int destino) {
     return ruta;
 }
 
-// --- Nivel 2: Greedy/Prim ---
+// Nivel 2: Greedy/Prim 
 vector<int> AlgoritmosGrafo::algoritmoPrim(int inicio, int destino) {
     int cantidadNodos = grafo.getCantidadNodos();
-    vector<bool> visitados(cantidadNodos, false);   // Para reconstruir MST y rutas
-    vector<int> predecesores(cantidadNodos, -1);    // Un -1 indica que nodo no tiene predecesor o padre
+    vector<bool> visitados(cantidadNodos, false); // Para reconstruir MST y rutas
+    vector<int> predecesores(cantidadNodos, -1); // Un -1 indica que nodo no tiene predecesor o padre
 
     // Cola de prioridad o min-heap: (pesoArista, nodoPadre, nodoHijo)
     priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<>> colaPrioridad;
 
     // Construir el MST desde el nodo inicio (Utilizando algoritmo de Prim)
-    visitados[inicio] = true;                    // Marcar nodo de inicio como visitado
+    visitados[inicio] = true; // Marcar nodo de inicio como visitado
     for (auto [vecino, peso] : grafo.obtenerAdyacentes(inicio)) {
         colaPrioridad.push({peso, inicio, vecino});
     }
@@ -134,7 +134,7 @@ vector<int> AlgoritmosGrafo::algoritmoPrim(int inicio, int destino) {
     vector<int> ruta;
 
     if (!visitados[destino]) {
-        // Si no se alcanzó el destino, se retorna vector vacío
+        // Si no se alcanzo el destino, se retorna vector vacío
         return {};
     }
 
@@ -172,7 +172,7 @@ std::vector<int> AlgoritmosGrafo::algoritmoDijkstra(int inicio, int destino){
         // Observar todos los vecinos del nodo actual
         for(const auto& arista: grafo.obtenerAdyacentes(act)){
             int vertice = arista.first; // Nodo vecino
-            int peso = arista.second;   // Peso de la trayectoria 
+            int peso = arista.second;  // Peso de la trayectoria 
 
             // Calcular la nueva distancia 
             int nuevaDistancia = distancia[act] + peso;
@@ -264,12 +264,12 @@ std::vector<int> AlgoritmosGrafo::rutaFloydWarshall(int origen, int destino,  co
 
 // Funcion para calcular costo total de una ruta
 int AlgoritmosGrafo::calcularCostoRuta(const std::vector<int>& ruta) {
-    if (ruta.size() < 2) return -1;                 // Si la ruta tiene menos de 2 nodos, no es valida
+    if (ruta.size() < 2) return -1;  // Si la ruta tiene menos de 2 nodos, no es valida
     int costoRuta = 0;
 
     for (int i = 0; i < ruta.size() - 1; i++) {
         int peso = grafo.getPesoArista(ruta[i], ruta[i+1]);
-        if (peso == -1) return -1;                  // Si no existe una arista en la ruta, no es valida
+        if (peso == -1) return -1; // Si no existe una arista en la ruta, no es valida
         costoRuta += peso;
     }
 

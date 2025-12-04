@@ -1,4 +1,4 @@
-#include "grafo.h"
+#include "../include/grafo.h"
 
 using namespace std;
 
@@ -11,7 +11,10 @@ Grafo::Grafo(int cantidadNodos)
     this->baseID = -1; // ID de la base se detecta al cargar archivo de texto
 }
 
-// --- Funciones para manejar nodos y aristas ---
+Grafo::Grafo() {
+}
+
+// Funciones para manejar nodos y aristas
 void Grafo::agregarNodo(const Nodo& nodo) {
     // Verificar que el ID es válido
     if (nodo.id < 0 || nodo.id >= cantidadNodos) {
@@ -44,7 +47,7 @@ bool Grafo::agregarArista(int origen, int destino, int peso) {
     return true;
 }
 
-// --- Funciones auxiliares ---
+// Funciones auxiliares
 // Imprime la información de todos los nodos y sus aristas
 void Grafo::imprimirGrafo() const {
     for (int i = 0; i < cantidadNodos; i++) {
@@ -97,13 +100,22 @@ bool Grafo::validarNodo(int id) const {
     return id >= 0 && id < cantidadNodos;
 }
 
-// --- Getters ---
+// Getters
 // Retorna el nodo con el ID dado 
 Nodo Grafo::obtenerNodo(int id) const {
     // Validar que este dentro del rango
     if (!validarNodo(id)) {
         cerr << "obtenerNodo: id fuera de rango\n";
         return Nodo{-1,0,0,0,0}; 
+    }
+    return nodos[id];
+}
+
+// Retorna referencia al nodo real (permite modificarlo)
+Nodo& Grafo::obtenerNodoReferencia(int id) {
+    if (!validarNodo(id)) {
+        cerr << "obtenerNodoRef: id fuera de rango\n";
+        throw std::out_of_range("Nodo inválido");
     }
     return nodos[id];
 }
