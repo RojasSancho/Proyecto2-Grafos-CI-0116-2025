@@ -395,6 +395,7 @@ void Interfaz::dibujarHUD() {
         DrawTextEx(gFuente, "3: Prim  | 4: Dijkstra", { (float)x, (float)(yHelp + 62) }, 16, 1, LIGHTGRAY);
         DrawTextEx(gFuente, "5: Floyd | C: Ciclo eco", { (float)x, (float)(yHelp + 82) }, 16, 1, LIGHTGRAY);
         DrawTextEx(gFuente, "M: Comprar motor de plasma", { (float)x, (float)(yHelp + 102) }, 16, 1, LIGHTGRAY);
+        DrawTextEx(gFuente, "H: Mostra Ayuda", { (float)x, (float)(yHelp + 122) }, 16, 1, LIGHTGRAY);
     } else {
         // Texto alternativo si la fuente personalizada no se cargo
         DrawText("Bateria", x, y - 18, 14, WHITE);
@@ -419,9 +420,9 @@ void Interfaz::dibujarHUD() {
     DrawRectangleLinesEx(btnAyuda, 2, YELLOW);
 
     if (gFuenteCargada) {
-        DrawTextEx(gFuente, "Ayuda",{ btnAyuda.x + 10, btnAyuda.y + 7 }, 18, 1, WHITE);
+        DrawTextEx(gFuente, "Ayuda (H)",{ btnAyuda.x + 10, btnAyuda.y + 7 }, 18, 1, WHITE);
     } else {
-        DrawText("Ayuda",(int)btnAyuda.x + 10, (int)btnAyuda.y + 10, 18, WHITE);
+        DrawText("Ayuda (H)",(int)btnAyuda.x + 10, (int)btnAyuda.y + 10, 18, WHITE);
     }
 
     // Ventana emergente de ayuda con descripcion de mecanicas y logica
